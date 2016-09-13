@@ -3,6 +3,8 @@ Emacs mode for interfacing with the Fluxus live coding environment.
 
 Forked and heavily modified from https://github.com/lesbroot/fluxus-framework
 
+Please don't hesitate to offer suggestions or let me know about any issues!
+
 Installation
 ============
 
