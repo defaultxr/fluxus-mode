@@ -9,10 +9,10 @@
 (defvar fluxus-process nil
   "The Fluxus process.")
 
-(with-eval-after-load "smartparens" ;; FIX
-  ;; (sp-local-pair 'fluxus-mode "'" nil :actions :rem)
-  ;; (sp-local-pair 'fluxus-mode "`" nil :actions :rem)
-  )
+(with-eval-after-load 'smartparens
+  (add-to-list 'sp-lisp-modes 'fluxus-mode)
+  (sp-local-pair 'fluxus-mode "'" nil :actions nil)
+  (sp-local-pair 'fluxus-mode "`" nil :actions nil))
 
 (defun fluxus-start ()
   "Starts or restarts Fluxus."
@@ -141,6 +141,7 @@
   "Fluxus"
   "Fluxus mode."
   (font-lock-add-keywords nil `((,fluxus-keywords . 'font-lock-function-name-face))))
+
 (add-to-list 'auto-mode-alist '("\\.flx\\'" . fluxus-mode))
 
 (provide 'fluxus-mode)

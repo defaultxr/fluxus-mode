@@ -33,4 +33,5 @@ Future
 
 - Get this on MELPA
 - Figure out if it's possible to automatically hide Fluxus's on-screen REPL (this will be optional of course)
+- Get this working with eldoc mode somehow
 - Other stuff also.
