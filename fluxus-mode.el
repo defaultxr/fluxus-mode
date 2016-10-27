@@ -14,7 +14,7 @@
   (sp-local-pair 'fluxus-mode "'" nil :actions nil)
   (sp-local-pair 'fluxus-mode "`" nil :actions nil))
 
-(defun fluxus-start ()
+(defun fluxus-start () ;; FIX: use process sentinels to avoid having to use `sit-for'
   "Starts or restarts Fluxus."
   (interactive)
   (fluxus-stop)
