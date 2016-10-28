@@ -25,6 +25,7 @@ Then just open a new file in Emacs with the .flx extension (I use this instead o
 Usage
 =====
 
+- Use C-c C-o to start Fluxus from Emacs.
 - Use C-c C-c to evaluate the current top-level defun in the buffer.
 - Use C-c C-f to evaluate the whole buffer.
 
