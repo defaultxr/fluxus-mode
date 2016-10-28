@@ -1,11 +1,11 @@
-;;; fluxus-mode.el --- Major mode for interfacing with the Fluxus live coding environment
+;;; fluxus-mode.el --- Major mode for interfacing with Fluxus
 
 ;; Copyright (C) 2016 modula t.
 
 ;; Author: modula t. <defaultxr@gmail.com>
 ;; Homepage: https://github.com/defaultxr/fluxus-mode
 ;; Version: 0.5
-;; Package-Requires: ((osc "0.1"))
+;; Package-Requires: ((osc "0.1") (emacs "24.4"))
 ;; Keywords: languages
 
 ;; This file is not part of GNU Emacs.
@@ -28,9 +28,9 @@
 ;; This package provides an interface to the Fluxus live coding environment.
 ;;
 ;; According to the official Fluxus site at http://www.pawfal.org/fluxus/ ,
-;; Fluxus is a 3D game engine for livecoding worlds into existence. It is
+;; Fluxus is a 3D game engine for livecoding worlds into existence.  It is
 ;; a rapid prototyping, playing and learning environment for 3D graphics,
-;; sound and games. It extends the Racket language with graphical commands
+;; sound and games.  It extends the Racket language with graphical commands
 ;; and can be used within its own livecoding environment or from within the
 ;; DrRacket IDE.
 ;;
@@ -58,6 +58,7 @@
 (require 'osc)
 
 (defun fluxus-make-osc-client (host port)
+  "Make the OSC connection to Fluxus on host HOST and port PORT."
   (make-network-process
    :name "OSC client"
    :host host
@@ -65,7 +66,8 @@
    :type 'datagram
    :family 'ipv4))
 
-(setf fluxus-client (fluxus-make-osc-client fluxus-osc-host fluxus-osc-port))
+(defvar fluxus-client (fluxus-make-osc-client fluxus-osc-host fluxus-osc-port)
+  "The OSC connection to Fluxus.")
 (set-process-query-on-exit-flag fluxus-client nil)
 
 (defvar fluxus-process nil
@@ -74,16 +76,17 @@
 ;; internal functions
 
 (defun fluxus-send (text)
-  "Sends code to Fluxus."
+  "Send TEXT as code to Fluxus."
   (osc-send-message fluxus-client "/code" text))
 
 (defun fluxus-current-task ()
+  "Return a task name for the current file."
   (car (split-string (buffer-name) "\\.")))
 
 ;; interactive functions
 
 (defun fluxus-start () ;; FIX: use process sentinels to avoid having to use `sit-for'
-  "Starts or restarts Fluxus."
+  "Start or restart Fluxus."
   (interactive)
   (fluxus-stop)
   (setq fluxus-process (start-process "fluxus" "*Fluxus*" "/usr/bin/fluxus"))
@@ -110,19 +113,19 @@
         (goto-char (point-max)))))
 
 (defun fluxus-spawn-task ()
-  "spawn the task named as the filename"
+  "Spawn a task named as the filename."
   (interactive)
   (osc-send-message fluxus-client "/spawn-task" (fluxus-current-task)))
 
 (defun fluxus-rm-task ()
-  "remove the current task"
+  "Remove the current buffer as a task."
   (interactive)
   (osc-send-message fluxus-client "/rm-task" (fluxus-current-task)))
 
 (defun fluxus-rm-all-tasks ()
-  "remove all tasks"
+  "Remove all tasks."
   (interactive)
-  (osc-send-message fluxus-client "/rm-all-tasks" ""))     
+  (osc-send-message fluxus-client "/rm-all-tasks" ""))
     
 (defun fluxus-send-region ()
   "Send a region to Fluxus."
@@ -135,26 +138,26 @@
   (fluxus-send (buffer-substring-no-properties (point-min) (point-max))))
 
 (defun fluxus-send-defun ()
-  "Sends the current top-level form to Fluxus."
+  "Send the current top level form to Fluxus."
   (interactive)
   (fluxus-send (buffer-substring-no-properties
                 (save-excursion (forward-char) (beginning-of-defun) (point))
                 (save-excursion (end-of-defun) (point)))))
 
 (defun fluxus-send-dwim ()
-  "Send the region to Fluxus. If the region isn't active, send the whole buffer."
+  "Send the region to Fluxus.  If the region isn't active, send the whole buffer."
   (interactive)
   (if (region-active-p)
       (fluxus-send-region)
     (fluxus-send-defun)))
 
 (defun fluxus-load ()
-  "loads the current file"
+  "Load the current file."
   (interactive)
   (osc-send-message fluxus-client "/load" buffer-file-name))
 
 (defun fluxus-load-and-spawn ()
-  "loads and spawns current file"
+  "Load and spawn the current file as a task."
   (interactive)
   (fluxus-load)
   (fluxus-spawn-task))
@@ -244,7 +247,7 @@
     (define-key map (kbd "C-c C-o") 'fluxus-start)
     (define-key map (kbd "C-c >") 'fluxus-show)
     map)
-  "Keymap for fluxus-mode")
+  "Keymap for fluxus-mode.")
 
 ;;;###autoload
 (define-derived-mode fluxus-mode scheme-mode

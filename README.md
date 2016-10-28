@@ -34,6 +34,5 @@ Future
 
 - Get this on MELPA
 - Figure out if it's possible to automatically hide Fluxus's on-screen REPL (this will be optional of course)
-- Get this working with eldoc mode somehow
-- Update the `fluxus-keywords` list to include a lot more stuff.
-- Other stuff also.
+- Get this working with eldoc mode somehow (may just have to manually scrape the function docs since scheme doesn't seem to allow you to get the lambda list like common lisp does)
+
