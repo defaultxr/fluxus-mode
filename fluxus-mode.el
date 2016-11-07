@@ -252,7 +252,7 @@
 ;;;###autoload
 (define-derived-mode fluxus-mode scheme-mode
   "Fluxus"
-  "Fluxus mode."
+  "Fluxus mode"
   (font-lock-add-keywords nil `((,fluxus-keywords . 'font-lock-function-name-face))))
 
 ;;;###autoload
