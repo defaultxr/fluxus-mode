@@ -163,10 +163,6 @@
   (fluxus-load)
   (fluxus-spawn-task))
 
-;; (defun fluxus-send-via-shell (start end)
-;;   (shell-command-on-region start end
-;;                            (append "sendOSC -h " fluxus-osc-host " " (number-to-string fluxus-osc-port) " /code ")))
-
 ;; mode
 
 (defconst fluxus-keywords
@@ -178,8 +174,7 @@
   ;;    "texture" "opacity" "pdata-map!" "pdata-index-map!" "build-torus"
   ;;    "build-seg-plane" "build-cylinder" "build-polygons")
   ;;  'symbols)
-  (regexp-opt
-   '( ;; from http://www.pawfal.org/fluxus/docs/0.17/en/index.html
+  '( ;; from http://www.pawfal.org/fluxus/docs/0.17/en/index.html
    ;; frisbee
    "vec3" "vec3-x" "vec3-y" "vec3-z" "vec3-integral" "scene"
    ;; scheme-utils
@@ -228,8 +223,15 @@
    "self-test" "run-scripts"
    ;; voxels-utils
    "voxel-index" "voxels-pos"
-   )
-   'symbols))
+   ))
+
+(defun fluxus-completion-at-point ()
+  "This is the function to be used for the hook `completion-at-point-functions'."
+  (interactive)
+  (let* ((bds (bounds-of-thing-at-point 'symbol))
+         (start (car bds))
+         (end (cdr bds)))
+    (list start end fluxus-keywords . nil)))
 
 (defvar fluxus-mode-map
   (let ((map (make-sparse-keymap)))
@@ -245,7 +247,8 @@
 (define-derived-mode fluxus-mode scheme-mode
   "Fluxus"
   "Fluxus mode"
-  (font-lock-add-keywords nil `((,fluxus-keywords . 'font-lock-function-name-face))))
+  (font-lock-add-keywords nil `((,(regexp-opt fluxus-keywords 'symbols) . 'font-lock-function-name-face)))
+  (add-hook 'completion-at-point-functions 'fluxus-completion-at-point nil 'local))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.flx\\'" . fluxus-mode))
