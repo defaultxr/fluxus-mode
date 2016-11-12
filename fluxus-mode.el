@@ -85,6 +85,7 @@
 
 ;; interactive functions
 
+;;;###autoload
 (defun fluxus-start () ;; FIX: use process sentinels to avoid having to use `sit-for'
   "Start or restart Fluxus."
   (interactive)
@@ -168,11 +169,6 @@
 
 ;; mode
 
-(with-eval-after-load 'smartparens
-  (add-to-list 'sp-lisp-modes 'fluxus-mode)
-  (sp-local-pair 'fluxus-mode "'" nil :actions nil)
-  (sp-local-pair 'fluxus-mode "`" nil :actions nil))
-
 (defconst fluxus-keywords
   ;; (regexp-opt
   ;;  '("start-audio" "colour" "vector" "gh" "gain"
@@ -237,11 +233,7 @@
 
 (defvar fluxus-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "<f5>") 'fluxus-load)
-    (define-key map (kbd "<f6>") 'fluxus-spawn-task)
-    (define-key map (kbd "<f7>") 'fluxus-rm-task)
-    (define-key map (kbd "<f8>") 'fluxus-rm-all-tasks)
-    (define-key map (kbd "<f10>") 'fluxus-send-region)
+    (define-key map (kbd "C-c C-l") 'fluxus-load)
     (define-key map (kbd "C-c C-c") 'fluxus-send-dwim)
     (define-key map (kbd "C-c C-f") 'fluxus-send-buffer)
     (define-key map (kbd "C-c C-o") 'fluxus-start)
