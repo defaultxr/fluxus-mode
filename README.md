@@ -20,6 +20,8 @@ And put this in your ~/.fluxus.scm:
 (load "/path/to/fluxus-mode/fluxus.scm")
 ```
 
+(You can also just copy the contents of that file into your ~/.fluxus.scm if that's easier.)
+
 Then just open a new file in Emacs with the .flx extension (I use this instead of .scm so there's no confusion between other non-Fluxus Schemes) and type C-c C-o to start Fluxus from Emacs!
 
 Usage
@@ -32,7 +34,6 @@ Usage
 Future
 ======
 
-- Get this on MELPA
 - Figure out if it's possible to automatically hide Fluxus's on-screen REPL (this will be optional of course)
 - Get this working with eldoc mode somehow (may just have to manually scrape the function docs since scheme doesn't seem to allow you to get the lambda list like common lisp does)
 
