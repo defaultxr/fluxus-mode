@@ -64,7 +64,8 @@
    :host host
    :service port
    :type 'datagram
-   :family 'ipv4))
+   :family 'ipv4
+   :noquery t))
 
 (defvar fluxus-client (fluxus-make-osc-client fluxus-osc-host fluxus-osc-port)
   "The OSC connection to Fluxus.")
