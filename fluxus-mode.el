@@ -69,7 +69,6 @@
 
 (defvar fluxus-client (fluxus-make-osc-client fluxus-osc-host fluxus-osc-port)
   "The OSC connection to Fluxus.")
-(set-process-query-on-exit-flag fluxus-client nil)
 
 (defvar fluxus-process nil
   "The Fluxus process.")
