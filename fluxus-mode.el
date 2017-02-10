@@ -73,6 +73,9 @@
 (defvar fluxus-process nil
   "The Fluxus process.")
 
+(defvar fluxus-mode-directory (file-name-directory load-file-name)
+  "The directory that fluxus-mode resides in.")
+
 ;; internal functions
 
 (defun fluxus-send (text)
@@ -90,7 +93,7 @@
   "Start or restart Fluxus."
   (interactive)
   (fluxus-stop)
-  (setq fluxus-process (start-process "fluxus" "*Fluxus*" "/usr/bin/fluxus"))
+  (setq fluxus-process (start-process "fluxus" "*Fluxus*" "/usr/bin/fluxus" "-x" (concat fluxus-mode-directory "fluxus.scm")))
   (with-current-buffer "*Fluxus*"
     (let ((window (display-buffer (current-buffer))))
       (goto-char (point-max))
@@ -236,8 +239,8 @@
 (defvar fluxus-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-l") 'fluxus-load)
-    (define-key map (kbd "C-c C-c") 'fluxus-send-dwim)
     (define-key map (kbd "C-c C-f") 'fluxus-send-buffer)
+    (define-key map (kbd "C-c C-c") 'fluxus-send-dwim)
     (define-key map (kbd "C-c C-o") 'fluxus-start)
     (define-key map (kbd "C-c >") 'fluxus-show)
     map)

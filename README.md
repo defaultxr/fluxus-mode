@@ -3,6 +3,8 @@ Emacs mode for interfacing with the Fluxus live coding environment.
 
 Forked and heavily modified from https://github.com/lesbroot/fluxus-framework
 
+Right now, the code you're writing doesn't show up in the Fluxus window, so the Fluxus sketchpad is disabled. I'll fix this eventually.
+
 Please don't hesitate to offer suggestions or let me know about any issues!
 
 Installation
@@ -14,26 +16,18 @@ Download this repository, then put the following in your init.el:
 (load "/path/to/fluxus-mode/fluxus-mode.el")
 ```
 
-And put this in your ~/.fluxus.scm:
-
-```
-(load "/path/to/fluxus-mode/fluxus.scm")
-```
-
-(You can also just copy the contents of that file into your ~/.fluxus.scm if that's easier.)
-
-Then just open a new file in Emacs with the .flx extension (I use this instead of .scm so there's no confusion between other non-Fluxus Schemes) and type C-c C-o to start Fluxus from Emacs!
+Then just open a file in Emacs with the .flx extension (I use this instead of .scm so there's no confusion between other non-Fluxus Schemes) and type C-c C-o to start Fluxus from Emacs!
 
 Usage
 =====
 
 - Use C-c C-o to start Fluxus from Emacs.
-- Use C-c C-c to evaluate the current top-level defun in the buffer.
 - Use C-c C-f to evaluate the whole buffer.
+- Use C-c C-c to evaluate the current top-level defun in the buffer.
 
 Future
 ======
 
-- Figure out if it's possible to automatically hide Fluxus's on-screen REPL (this will be optional of course)
+- Optionally show the current Emacs buffer in the Fluxus window (for live coding performance).
 - Get this working with eldoc mode somehow (may just have to manually scrape the function docs since scheme doesn't seem to allow you to get the lambda list like common lisp does)
 
