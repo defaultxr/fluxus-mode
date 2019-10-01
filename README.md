@@ -3,7 +3,7 @@ Emacs mode for interfacing with the Fluxus live coding environment.
 
 Forked and heavily modified from https://github.com/lesbroot/fluxus-framework
 
-Right now, the code you're writing doesn't show up in the Fluxus window, so the Fluxus sketchpad is disabled. I'll fix this eventually.
+Right now, the code you're writing doesn't show up in the Fluxus window, so the Fluxus sketchpad is disabled by default (it can still be shown again with the standard `ctrl+h` shortcut). I'll fix this eventually.
 
 Please don't hesitate to offer suggestions or let me know about any issues!
 

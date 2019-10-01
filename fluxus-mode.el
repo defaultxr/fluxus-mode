@@ -53,6 +53,10 @@
   "The port to send Fluxus OSC messages through."
   :type '(integer))
 
+(defcustom fluxus-flash-region-on-eval t
+  "Whether or not to flash the region being evaluated."
+  :type '(boolean))
+
 ;; setup
 
 (require 'osc)
@@ -85,6 +89,13 @@
 (defun fluxus-current-task ()
   "Return a task name for the current file."
   (car (split-string (buffer-name) "\\.")))
+
+(defun fluxus-flash-region (start end &optional timeout)
+  "Temporarily highlight region from START to END."
+  (when fluxus-flash-region-on-eval
+    (let ((overlay (make-overlay start end)))
+      (overlay-put overlay 'face 'secondary-selection)
+      (run-with-timer (or timeout 0.2) nil 'delete-overlay overlay))))
 
 ;; interactive functions
 
@@ -132,24 +143,31 @@
   (osc-send-message fluxus-client "/rm-all-tasks" ""))
     
 (defun fluxus-send-region ()
-  "Send a region to Fluxus."
+  "Send the region to Fluxus."
   (interactive)
-  (fluxus-send (buffer-substring-no-properties (region-beginning) (region-end))))
+  (let ((beg (region-beginning))
+        (end (region-end)))
+    (fluxus-flash-region beg end)
+    (fluxus-send (buffer-substring-no-properties beg end))))
 
 (defun fluxus-send-buffer ()
   "Send the current buffer to Fluxus."
   (interactive)
-  (fluxus-send (buffer-substring-no-properties (point-min) (point-max))))
+  (let ((beg (point-min))
+        (end (point-max))))
+  (fluxus-flash-region beg end)
+  (fluxus-send (buffer-substring-no-properties beg end)))
 
 (defun fluxus-send-defun ()
   "Send the current top level form to Fluxus."
   (interactive)
-  (fluxus-send (buffer-substring-no-properties
-                (save-excursion (forward-char) (beginning-of-defun) (point))
-                (save-excursion (end-of-defun) (point)))))
+  (let ((beg (save-excursion (forward-char) (beginning-of-defun) (point)))
+        (end (save-excursion (end-of-defun) (point))))
+    (fluxus-flash-region beg end)
+    (fluxus-send (buffer-substring-no-properties beg end))))
 
 (defun fluxus-send-dwim ()
-  "Send the region to Fluxus.  If the region isn't active, send the whole buffer."
+  "Send the region to Fluxus. If the region isn't active, send the top level form currently under point."
   (interactive)
   (if (region-active-p)
       (fluxus-send-region)
