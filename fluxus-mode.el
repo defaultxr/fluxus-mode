@@ -154,9 +154,9 @@
   "Send the current buffer to Fluxus."
   (interactive)
   (let ((beg (point-min))
-        (end (point-max))))
-  (fluxus-flash-region beg end)
-  (fluxus-send (buffer-substring-no-properties beg end)))
+        (end (point-max)))
+    (fluxus-flash-region beg end)
+    (fluxus-send (buffer-substring-no-properties beg end))))
 
 (defun fluxus-send-defun ()
   "Send the current top level form to Fluxus."
