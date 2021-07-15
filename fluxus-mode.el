@@ -90,12 +90,10 @@
   "Return a task name for the current file."
   (car (split-string (buffer-name) "\\.")))
 
-(defun fluxus-flash-region (start end &optional timeout)
+(defun fluxus-flash-region (start end)
   "Temporarily highlight region from START to END."
   (when fluxus-flash-region-on-eval
-    (let ((overlay (make-overlay start end)))
-      (overlay-put overlay 'face 'secondary-selection)
-      (run-with-timer (or timeout 0.2) nil 'delete-overlay overlay))))
+    (pulse-momentary-highlight-region start end)))
 
 ;; interactive functions
 
