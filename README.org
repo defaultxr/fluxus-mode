@@ -1,0 +1,32 @@
+#+TITLE: fluxus-mode
+#+DESCRIPTION: Emacs major mode for interacting with the Fluxus live coding environment.
+
+An Emacs major mode for interacting with the Fluxus live coding environment.
+
+Forked and heavily modified from https://github.com/lesbroot/fluxus-framework
+
+Right now, the code you're writing doesn't show up in the Fluxus window, so the Fluxus sketchpad is disabled by default (it can still be shown again with the standard ~C-h~ shortcut). I'll fix this eventually.
+
+Please don't hesitate to offer suggestions or let me know about any issues!
+
+* Installation
+
+Download this repository, then put the following in your init.el:
+
+#+begin_src emacs-lisp
+(load "/path/to/fluxus-mode/fluxus-mode.el")
+#+end_src
+
+Then just open a file in Emacs with the ~.flx~ extension (I use this instead of ~.scm~ so there's no conflict with other Schemes) and type ~C-c C-o~ to start Fluxus from Emacs!
+
+* Usage
+
+- Use ~C-c C-o~ to start Fluxus from Emacs.
+- Use ~C-c C-f~ to evaluate the whole buffer.
+- Use ~C-c C-c~ to evaluate the current top-level defun in the buffer.
+
+* Future
+
+- Optionally show the current Emacs buffer in the Fluxus window (for live coding performance).
+- Get this working with eldoc mode somehow (may just have to manually scrape the function docs since scheme doesn't seem to allow you to get the lambda list like common lisp does)
+
